@@ -1,4 +1,4 @@
-// require('dotenv').config();
+require('dotenv').config();
 
 const { JWT_SECRET, NODE_ENV } = process.env;
 const jwt = require('jsonwebtoken');
@@ -7,7 +7,6 @@ const UnauthorizedError = require('../errors/unauthorized-err');
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
-  // убеждаемся, что он есть или начинается с Bearer
   if (!authorization) {
     throw new UnauthorizedError(errorMassage.USER_ERROR_MUST_AUTHORIZED);
   }
