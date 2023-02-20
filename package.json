@@ -1,0 +1,33 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "author": "Aleksandra",
+  "license": "ISC",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandra-dav/movies-explorer-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alexandra-dav/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/alexandra-dav/movies-explorer-api#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "eslint": "^8.34.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "express": "^4.18.2",
+    "mongoose": "^6.9.2",
+    "validator": "^13.9.0"
+  }
+}
