@@ -4,12 +4,10 @@ const { connect } = require('mongoose');
 const cors = require('cors');
 const { errors } = require('celebrate');
 const router = require('./routes/index');
-const {
-  errorMassage, statusCodeName,
-} = require('./utils/constants');
+const { errorMassage, statusCodeName } = require('./utils/constants');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
-const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 app.use(json());

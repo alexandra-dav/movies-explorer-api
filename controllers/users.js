@@ -29,7 +29,7 @@ module.exports.updateUserData = (req, res, next) => {
     req.user._id,
     {
       name: req.body.name,
-      about: req.body.about,
+      email: req.body.email,
     },
     {
       new: true,
