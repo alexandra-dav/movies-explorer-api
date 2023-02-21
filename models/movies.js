@@ -52,7 +52,7 @@ const movieSchema = new Schema({
     required: 'owner обязательное поле',
   },
   movieId: {
-    type: Schema.Types.ObjectId,
+    type: Number,
     required: 'movieId обязательное поле',
   },
   nameRU: {
