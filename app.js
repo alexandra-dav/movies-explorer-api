@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const { json, urlencoded } = require('express');
 const { connect } = require('mongoose');
@@ -7,13 +8,13 @@ const router = require('./routes/index');
 const { errorMassage, statusCodeName } = require('./utils/constants');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
+const { PORT, MONGO_DB_CONNECT } = process.env;
 
 const app = express();
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-connect('mongodb://localhost:27017/bitfilmsdb', {
+connect(MONGO_DB_CONNECT, {
   useNewUrlParser: true,
 });
 

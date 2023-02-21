@@ -16,7 +16,8 @@ module.exports.showOwner = (req, res, next) => {
       if (user === null) {
         throw new NotFoundError(errorMassage.USER_NOT_FOUND);
       }
-      res.send(user);
+      const { name, email } = user;
+      res.send({ name, email });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
