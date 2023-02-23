@@ -13,26 +13,16 @@ module.exports.showMovies = (req, res, next) => {
 };
 module.exports.createMovies = (req, res, next) => {
   Movies.create({
+    ...req.body,
     owner: req.user._id,
-    country: req.body.country,
-    director: req.body.director,
-    duration: req.body.duration,
-    year: req.body.year,
-    description: req.body.description,
-    image: req.body.image,
-    // trailerLink: req.body.trailerLink,
-    trailerLink: req.body.trailer,
-    thumbnail: req.body.thumbnail,
-    movieId: req.body.movieId,
-    nameRU: req.body.nameRU,
-    nameEN: req.body.nameEN,
   })
     .then((movie) => Movies.findById(movie._id))
     .then((fullMovie) => res.status(statusCodeName.CREATED).send(fullMovie))
     .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new NoValidationError(errorMassage.MOVIE_NOT_VALID));
-      } else { next(err); }
+      if (err.name === 'ValidationError') {
+        return next(new NoValidationError(errorMassage.MOVIE_NOT_VALID));
+      }
+      return next(err);
     });
 };
 module.exports.deleteMovies = (req, res, next) => {
@@ -41,7 +31,7 @@ module.exports.deleteMovies = (req, res, next) => {
       if (!movie) {
         throw new NotFoundError(errorMassage.MOVIE_NOT_VALID);
       }
-      if (req.user._id !== movie.owner) {
+      if (req.user._id !== movie.owner.toString()) {
         throw new ForbiddenError(errorMassage.MOVIE_ERROR_CREDENTINAL);
       }
       return Movies.findByIdAndRemove(movie._id);
@@ -49,7 +39,7 @@ module.exports.deleteMovies = (req, res, next) => {
     .then((movieData) => res.send(movieData))
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new NoValidationError(errorMassage.MOVIE_NOT_FOUND));
-      } else { next(err); }
+        return next(new NoValidationError(errorMassage.MOVIE_NOT_FOUND));
+      } return next(err);
     });
 };

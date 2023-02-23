@@ -1,7 +1,7 @@
-# movies-explorer-api
+# movies-explorer-frontend
 
-Ссылка на pull requests проекта: https://github.com/alexandra-dav/movies-explorer-api/pull/2
+Ссылка на pull requests проекта: 
 
 URL сервера:
 - IP: 62.84.114.72
-- Backend: https://api.your.movies.nomoredomains.work
+- Frontend (на стадии разработки): https://your.movies.nomoredomains.work

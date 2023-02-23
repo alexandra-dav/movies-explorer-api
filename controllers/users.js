@@ -7,7 +7,6 @@ const { statusCodeName, errorMassage } = require('../utils/constants');
 const User = require('../models/users');
 const NotFoundError = require('../errors/not-found-err');
 const NoValidationError = require('../errors/no-validation-err');
-const UnauthorizedError = require('../errors/unauthorized-err');
 const ConflictError = require('../errors/conflict-err');
 
 module.exports.showOwner = (req, res, next) => {
@@ -43,11 +42,13 @@ module.exports.updateUserData = (req, res, next) => {
       }
       res.send(user);
     })
-    .catch(next)
     .catch((err) => {
+      if (err.code === 11000) {
+        return next(new ConflictError(errorMassage.USER_ERROR_CONFLICT));
+      }
       if (err.name === 'ValidationError') {
-        next(new NoValidationError(errorMassage.USER_NOT_VALID));
-      } else { next(err); }
+        return next(new NoValidationError(errorMassage.USER_NOT_VALID));
+      } return next(err);
     });
 };
 module.exports.createUser = (req, res, next) => {
@@ -68,23 +69,17 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictError(errorMassage.USER_ERROR_CONFLICT));
+        return next(new ConflictError(errorMassage.USER_ERROR_CONFLICT));
       }
       if (err.name === 'ValidationError') {
-        next(new NoValidationError(errorMassage.USER_NOT_VALID));
-      } else { next(err); }
+        return next(new NoValidationError(errorMassage.USER_NOT_VALID));
+      } return next(err);
     });
 };
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
-  User.findOne({ email })
-    .then((user) => {
-      if (!user) {
-        return Promise.reject(new UnauthorizedError(errorMassage.USER_ERROR_UNAUTHORIZED));
-      }
-      return User.findUserByCredentials(email, password);
-    })
+  User.findUserByCredentials(email, password)
     .then((userData) => {
       const token = jwt.sign(
         { _id: userData._id },

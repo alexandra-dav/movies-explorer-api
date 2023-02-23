@@ -5,8 +5,8 @@ const { showOwner, updateUserData } = require('../controllers/users');
 router.get('/me', showOwner);
 router.patch('/me', celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    email: Joi.string().email({ minDomainSegments: 2 }),
+    name: Joi.string().min(2).max(30).required(),
+    email: Joi.string().email({ minDomainSegments: 2 }).required(),
   }),
 }), updateUserData);
 

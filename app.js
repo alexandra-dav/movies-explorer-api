@@ -4,17 +4,17 @@ const { json, urlencoded } = require('express');
 const { connect } = require('mongoose');
 const cors = require('cors');
 const { errors } = require('celebrate');
-const router = require('./routes/index');
+const router = require('./routes');
 const { errorMassage, statusCodeName } = require('./utils/constants');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT, MONGO_DB_CONNECT } = process.env;
+const { PORT, MONGO_DB_CONNECT, NODE_ENV } = process.env;
 
 const app = express();
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-connect(MONGO_DB_CONNECT, {
+connect(NODE_ENV === 'production' ? MONGO_DB_CONNECT : 'mongodb://localhost:27017/devdb', {
   useNewUrlParser: true,
 });
 
@@ -33,9 +33,6 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`App listening on port ${PORT}`);
-});
+app.listen(PORT);
 
 module.exports = app;
