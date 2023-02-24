@@ -1,4 +1,4 @@
-# movies-explorer-frontend
+# movies-explorer-api
 
 URL сервера:
 - IP: 62.84.114.72
