@@ -7,7 +7,7 @@ const helmet = require('helmet');
 const { errors } = require('celebrate');
 const router = require('./routes');
 const commonError = require('./middlewares/common-err');
-const apiLimiter = require('./utils/limiter');
+const { apiLimiter } = require('./utils/limiter');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000, MONGO_DB_CONNECT, NODE_ENV } = process.env;
